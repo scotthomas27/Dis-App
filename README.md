@@ -18,5 +18,5 @@ A simple desktop application inspired by "The Most dangerous Writing App". If yo
 
 <p style="text-align:center;">Red Text</p
   
-[red-text](https://i.postimg.cc/FHTpsmC1/Disappearing-Text-4.png)
+![red-text](https://i.postimg.cc/FHTpsmC1/Disappearing-Text-4.png)
 <br>

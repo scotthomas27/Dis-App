@@ -1,25 +1,25 @@
 import customtkinter as ctk
+import os  # Import the os module
 
-ctk.set_appearance_mode("system")
-ctk.set_default_color_theme("dark-blue")
-
+ctk.set_appearance_mode("dark")  # Adjust appearance mode as needed
+ctk.set_default_color_theme("dark-blue")  # Adjust color theme as needed
 
 class TextApp:
     def __init__(self):
         self.window = ctk.CTk()
         self.window.title("Disappearing Text App")
-        self.window.geometry('810x600')
-        self.label = ctk.CTkLabel(self.window, text="Start typing to start the timer.\nIf you stop for 10 seconds, the text will disappear.", text_color='gray80',
-                                  anchor='center', justify='center', font=("Arial", 25))
-        self.label.place(relx=0.16, rely=0.02)
-        self.label = ctk.CTkLabel(self.window, text="The text will be Green when you have 10 seconds left, Blue when you\nhave 6 seconds left and Red when there are only 3 seconds remaining.", text_color='gray80',
-                                  anchor='center', justify="left", font=("Arial", 25))
-        self.label.place(relx=0.01, rely=0.2)
-        self.label = ctk.CTkLabel(self.window, text="Good Luck!", text_color='gray80',
-                                  anchor='center', font=("Arial", 25))
-        self.label.place(relx=0.4, rely=0.4)
-        self.textbox = ctk.CTkTextbox(self.window, width=500, height=200, font=("Arial", 25))
-        self.textbox.place(relx=0.18, rely=0.5)
+        self.window.geometry('1350x750')
+        self.window.configure(bg="#333333")  # Darker shade for reduced brightness
+        
+        # Adjust label colors for better visibility on darker backgrounds
+        self.instructions_label = ctk.CTkLabel(self.window, text="Start typing to start the timer. If you stop for 10 seconds, the text will disappear.", text_color='white',
+                                               anchor='center', justify='center', font=("Arial", 15))
+        self.instructions_label.place(relx=0.05, rely=0.05)
+        
+        # Adjusted textbox size and placement for better fit and visibility
+        self.textbox = ctk.CTkTextbox(self.window, width=1200, height=700, font=("Arial", 18))  # Adjusted size for better fit
+        self.textbox.place(relx=0.05, rely=0.09)  # Adjusted placement for centered alignment
+        
         self.textbox.focus()
         self.textbox.bind("<Key>", self.reset_timer)
         self.timer = None
@@ -32,7 +32,6 @@ class TextApp:
         self.timer = self.window.after(1000, self.update_timer)
         self.remaining_time = 10
         self.update_color()
-
     def update_timer(self):
         self.remaining_time -= 1
         if self.remaining_time > 0:
@@ -47,9 +46,9 @@ class TextApp:
 
     def update_color(self):
         if self.remaining_time >= 7:
-            self.textbox.configure(text_color="green")
+            self.textbox.configure(text_color="white")
         elif self.remaining_time >= 4:
-            self.textbox.configure(text_color="blue")
+            self.textbox.configure(text_color="orange")
         else:
             self.textbox.configure(text_color="red")
 
@@ -58,19 +57,19 @@ class TextApp:
         if user_text == "":
             return
         try:
-            f = open('doc.txt', 'r')
+            with open('doc.txt', 'r') as f:
+                content = f.read()
         except FileNotFoundError:
-            f = open('doc.txt', 'w')
-            f.write(user_text)
-            return
+            with open('doc.txt', 'w') as f:
+                f.write(user_text)
+                return
         else:
-            content = f.read()
-        if content == "":
-            text_to_write = user_text
-        else:
-            text_to_write = f'\n{user_text}'
-        with open('doc.txt', 'a') as f:
-            f.write(text_to_write)
+            if content == "":
+                text_to_write = user_text
+            else:
+                text_to_write = f'\n{user_text}'
+            with open('doc.txt', 'a') as f:
+                f.write(text_to_write)
 
     def run(self):
         self.window.mainloop()

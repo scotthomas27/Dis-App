@@ -1,22 +1,23 @@
 # Dissapearing-Text-Writing-App
 A simple desktop application inspired by "The Most dangerous Writing App". If you stop typing the text will disappear.
 
-<p style="text-align:center;">App Main Screen.</p>
+Some changes have been made in this fork:
+. The input box has been significantly increased in size.
+. The full suite of on-page instructions has been removed (the app is pretty self explanatory)
+. The input text colours and size have been modified to better suit old eyes. ;)
 
-![app-main](https://i.postimg.cc/Nf7bSR16/Disappearing-Text-1.png)
-<br>
+## Installation instructions
 
-<p style="text-align:center;">Green Text</p>
+1. Check out this repo, or copy the code in `main.py` locally.
 
-![green-text](https://i.postimg.cc/Z5bjS0c1/Disappearing-Text-2.png)
-<br>
+2. Ensure Python is installed:
+`sudo apt install python3`
 
-<p style="text-align:center;">Blue Text</p
-  
-![blue-text](https://i.postimg.cc/R0qRW82d/Disappearing-Text-3.png)
-<br>
+3. Install `pip`:
+`sudo apt install pip`
 
-<p style="text-align:center;">Red Text</p
-  
-![red-text](https://i.postimg.cc/FHTpsmC1/Disappearing-Text-4.png)
-<br>
+4. Install `customtkinter`: 
+`pip install customtkinter`
+
+5. Run from a terminal in the same diretory as `main.py`:
+`python3 main.py`

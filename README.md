@@ -2,9 +2,12 @@
 A simple desktop application inspired by "The Most dangerous Writing App". If you stop typing the text will disappear.
 
 Some changes have been made in this fork:
-. The input box has been significantly increased in size.
-. The full suite of on-page instructions has been removed (the app is pretty self explanatory)
-. The input text colours and size have been modified to better suit old eyes. ;)
+
+- The input box has been significantly increased in size.
+
+- The verbose in-app instructions have been removed (it's pretty self explanatory).
+
+- The input text colours and size have been modified to better suit old eyes. ;)
 
 ## Installation instructions
 

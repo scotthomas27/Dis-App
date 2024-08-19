@@ -1,6 +1,8 @@
 # Dissapearing-Text-Writing-App
 A simple desktop application inspired by "The Most dangerous Writing App". If you stop typing the text will disappear.
 
+NOTE: The text is still written to the local save file, `doc.txt`, even after it disappears from the app interface.
+
 Some changes have been made in this fork:
 
 - The input box has been significantly increased in size.

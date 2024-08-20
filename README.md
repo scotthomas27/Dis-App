@@ -15,14 +15,14 @@ Some changes have been made in this fork:
 
 1. Check out this repo, or copy the code in `main.py` locally.
 
-2. Ensure Python is installed:
-`sudo apt install python3`
+2. Ensure Python nd python3-tk are installed:
+`sudo apt install python3 python3-tk`
 
-3. Install `pip`:
+4. Install `pip`:
 `sudo apt install pip`
 
-4. Install `customtkinter`: 
+5. Install `customtkinter`: 
 `pip install customtkinter`
 
-5. Run from a terminal in the same diretory as `main.py`:
+6. Run from a terminal in the same diretory as `main.py`:
 `python3 main.py`

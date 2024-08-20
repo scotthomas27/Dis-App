@@ -9,6 +9,8 @@ Some changes have been made in this fork:
 
 - The verbose in-app instructions have been removed (it's pretty self explanatory).
 
+- The last saved sentence is displayed instead.
+
 - The input text colours and size have been modified to better suit old eyes. ;)
 
 ## Installation instructions

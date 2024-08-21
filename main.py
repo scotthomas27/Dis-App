@@ -7,17 +7,19 @@ class TextApp:
     def __init__(self):
         self.window = ctk.CTk()
         self.window.title("Disappearing Text App")
-        self.window.geometry('1350x750')
+        self.window.geometry('1350x750')  # Initial geometry for reference
         self.window.configure(bg="#333333")
-        
+
         # Corrected placement of the label for the last saved sentence
         self.last_sentence_label = ctk.CTkLabel(self.window, text="", text_color=('white', 'white'), font=("Arial", 18), wraplength=1180)
         self.last_sentence_label.place(relx=0.05, rely=0.025)  # Simplified placement
-        
-        # Input field for writing
-        self.textbox = ctk.CTkTextbox(self.window, width=1200, height=500, font=("Arial", 18))
-        self.textbox.place(relx=0.05, rely=0.085)  # Adjusted position below the label
-        
+
+        # Input field for writing, using relative placement and size calculations
+        self.textbox_width = 1200  # Initial width for reference
+        self.textbox_height = 500  # Initial height for reference
+        self.textbox = ctk.CTkTextbox(self.window, width=self.textbox_width, height=self.textbox_height, font=("Arial", 18))
+        self.textbox.place(relx=0.05, rely=0.085, relwidth=0.85, relheight=0.65)  # Use relative placement and size
+
         self.textbox.focus()
         self.textbox.bind("<Key>", self.reset_timer)
         self.textbox.bind("<Return>", self.handle_return_key)  # Bind the Return key event
@@ -26,6 +28,20 @@ class TextApp:
 
         # Ensure the last saved sentence is displayed on launch
         self.update_last_sentence_display()
+
+        # Bind the resize event handler after creating the textbox
+        self.window.bind("<Configure>", self.on_resize)
+
+    def on_resize(self, event):
+        # Calculate new textbox dimensions based on window size and initial ratio
+        window_width = self.window.winfo_width()
+        window_height = self.window.winfo_height()
+        new_textbox_width = int(window_width * self.textbox_width / 1350)
+        new_textbox_height = int(window_height * self.textbox_height / 750)
+
+        # Update textbox dimensions and placement
+        self.textbox.configure(width=new_textbox_width, height=new_textbox_height)
+        self.textbox.place(relwidth=0.90, relheight=0.85)  # Maintain relative size
 
     def reset_timer(self, event):
         self.text = self.textbox.get("0.0", "end")

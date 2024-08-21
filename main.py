@@ -3,6 +3,7 @@ import customtkinter as ctk
 ctk.set_appearance_mode("dark")
 ctk.set_default_color_theme("dark-blue")
 
+
 class TextApp:
     def __init__(self):
         self.window = ctk.CTk()
@@ -10,14 +11,29 @@ class TextApp:
         self.window.geometry('1350x750')  # Initial geometry for reference
         self.window.configure(bg="#333333")
 
+        # Labels for word counts
+        self.session_word_count_label = ctk.CTkLabel(
+            self.window, text="Session Words: 0", text_color=("white", "white"), font=("Arial", 18)
+        )
+        self.session_word_count_label.place(relx=0.05, rely=0.99, anchor="sw")  # Position below the textbox, anchor to bottom left
+
+        self.saved_word_count_label = ctk.CTkLabel(
+            self.window, text="Saved Words: 0", text_color=("white", "white"), font=("Arial", 18)
+        )
+        self.saved_word_count_label.place(relx=0.95, rely=0.99, anchor="se")  # Position below the textbox, anchor to bottom right
+
         # Corrected placement of the label for the last saved sentence
-        self.last_sentence_label = ctk.CTkLabel(self.window, text="", text_color=('white', 'white'), font=("Arial", 18), wraplength=1180)
+        self.last_sentence_label = ctk.CTkLabel(
+            self.window, text="", text_color=("white", "white"), font=("Arial", 18), wraplength=1180
+        )
         self.last_sentence_label.place(relx=0.05, rely=0.025)  # Simplified placement
 
         # Input field for writing, using relative placement and size calculations
         self.textbox_width = 1200  # Initial width for reference
         self.textbox_height = 500  # Initial height for reference
-        self.textbox = ctk.CTkTextbox(self.window, width=self.textbox_width, height=self.textbox_height, font=("Arial", 18))
+        self.textbox = ctk.CTkTextbox(
+            self.window, width=self.textbox_width, height=self.textbox_height, font=("Arial", 18)
+        )
         self.textbox.place(relx=0.05, rely=0.085, relwidth=0.85, relheight=0.65)  # Use relative placement and size
 
         self.textbox.focus()
@@ -26,22 +42,18 @@ class TextApp:
         self.timer = None
         self.remaining_time = 10
 
-        # Ensure the last saved sentence is displayed on launch
-        self.update_last_sentence_display()
+        # Track word counts
+        self.initial_word_count = self.get_initial_word_count()
+        self.session_word_count = self.initial_word_count
 
-        # Bind the resize event handler after creating the textbox
-        self.window.bind("<Configure>", self.on_resize)
-
-    def on_resize(self, event):
-        # Calculate new textbox dimensions based on window size and initial ratio
-        window_width = self.window.winfo_width()
-        window_height = self.window.winfo_height()
-        new_textbox_width = int(window_width * self.textbox_width / 1350)
-        new_textbox_height = int(window_height * self.textbox_height / 750)
-
-        # Update textbox dimensions and placement
-        self.textbox.configure(width=new_textbox_width, height=new_textbox_height)
-        self.textbox.place(relwidth=0.90, relheight=0.85)  # Maintain relative size
+    def get_initial_word_count(self):
+        try:
+            with open('doc.txt', 'r') as f:
+                text = f.read()
+                words = text.split()
+                return len(words)
+        except FileNotFoundError:
+            return 0  # If the file doesn't exist, assume initial word count is 0
 
     def reset_timer(self, event):
         self.text = self.textbox.get("0.0", "end")
@@ -59,6 +71,7 @@ class TextApp:
             self.save_text()
             self.clear_text()
         self.update_color()
+        self.update_session_word_count()  # Update session word count after each save
 
     def clear_text(self):
         self.textbox.delete("0.0", "end")
@@ -89,9 +102,10 @@ class TextApp:
                 text_to_write = f'\n{user_text}'
             with open('doc.txt', 'a') as f:
                 f.write(text_to_write)
-                
-        # Update the last sentence label after saving
+
+        # Update the last saved sentence label and word counts after saving
         self.update_last_sentence_display()
+        self.update_saved_word_count()
 
     def update_last_sentence_display(self):
         try:
@@ -101,6 +115,30 @@ class TextApp:
                 self.last_sentence_label.configure(text=last_sentence)
         except Exception as e:
             print(f"Error reading last sentence: {e}")
+
+    def update_session_word_count(self):
+        # Get the current total word count from the saved file
+        total_word_count = self.get_total_word_count()
+        self.session_word_count = total_word_count - self.initial_word_count
+        self.session_word_count_label.configure(text=f"Session Words: {self.session_word_count}")
+
+    def get_total_word_count(self):
+        try:
+            with open('doc.txt', 'r') as f:
+                text = f.read()
+                return len(text.split())  # Count total words in the saved file
+        except FileNotFoundError:
+            return 0  # If the file doesn't exist, assume total word count is 0
+
+    def update_saved_word_count(self):
+        try:
+            with open('doc.txt', 'r') as f:
+                text = f.read()
+                words = text.split()
+                self.saved_word_count = len(words)
+                self.saved_word_count_label.configure(text=f"Saved Words: {self.saved_word_count}")
+        except FileNotFoundError:
+            pass  # File doesn't exist yet, so saved word count is 0
 
     def handle_return_key(self, event):
         # Handle the Return key press here
